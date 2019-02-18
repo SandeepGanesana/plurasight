@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IProducts } from './IProducts';
 import { productsService } from './products.service';
+import { stringify } from 'querystring';
 @Component({
     selector: 'products-list',
     templateUrl: './products-list.component.html',
@@ -14,10 +15,11 @@ export class ProductsListComponent implements OnInit {
     showImage: boolean = false;
     _productFilter: string;
     filteredProducts: IProducts[];
+    errorMessage: string;
+    
 
     constructor (private productsService: productsService) {
-        
-        this.productFilter = '';
+  
     }
 
     toggleImage(): void {
@@ -25,8 +27,14 @@ export class ProductsListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.products = this.productsService.getProducts();
-        this.filteredProducts = this.products;
+        this.productsService.getProducts().subscribe(
+            Response => {
+                this.products = Response;
+                this.filteredProducts = this.products;
+            },
+            error => this.errorMessage = <any>error
+        );    
+        this.productFilter= null;
     }
 
     get productFilter(): string {
