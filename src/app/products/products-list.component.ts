@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IProducts } from './IProducts';
 import { productsService } from './products.service';
-import { stringify } from 'querystring';
 @Component({
-    selector: 'products-list',
     templateUrl: './products-list.component.html',
     styleUrls: [ './products-list.component.css' ]
 })
